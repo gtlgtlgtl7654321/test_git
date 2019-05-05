@@ -1,19 +1,10 @@
-from tkinter import *
+from urllib import request
 
-class Application(Frame):
-    def __init__(self,master=None):
-        Frame.__init__(self,master)
-        self.pack()
-        self.createWidgets()
-
-    def createWidgets(self):
-        self.helloLable = Label(self,text='Hello, world!')
-        self.helloLable.pack()
-        self.quitButton = Button(self,text='Quit', command=self.quit)
-        self.quitButton.pack()
-
-app = Application()
-#设置窗口标题
-app.master.title('Hello World')
-#主消息循环
-app.mainloop()
+req = request.Request('http://www.douban.com')
+req.add_header('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36')
+with request.urlopen('https://www.douban.com') as f:
+    data = f.read()
+    print('Status:',f.status,f.reason)
+    for k,v in f.getheaders():
+        print('%s:%s' %(k,v))
+    print('Data:',data.decode('utf-8'))
